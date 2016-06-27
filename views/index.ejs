@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>House Manager App</title>
+
+  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/themes/simplex-theme-bootstrap.min.css">
+  <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="style.css">
+
+  <script src="/bower_components/angular/angular.js"></script>
+  <script src="/bower_components/ngstorage/ngStorage.min.js"></script>
+
+  <script src="/bower_components/moment/min/moment.min.js"></script>
+
+  <script src="/js/module.js"></script>
+  <script src="/js/controllers.js"></script>
+  <script src="/js/services.js"></script>
+
+</head>
+<body ng-app='myApp'>
+
+  <div class="container-fluid" ng-controller='mainCtrl'>
+    <h1 class="text-center">House Manager App</h1>
+    <button ng-click='reset()' class="btn btn-danger reset">All My Shit Got Robbed!</button>
+
+    
+
+    <div>
+
+      <div ng-submit='addItem(item, type)' class="addItemArea text-center">
+        <form class="form-inline">
+          <div class="form-group">
+            
+            <input ng-model='item.description' type="text" class="form-control" placeholder="Item Name" required>
+          </div>
+          <div class='form-group'>
+            <input ng-model='item.room' class='form-control' type="text" placeholder="Room" required>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-addon">$</div>
+              
+              <input ng-model='item.amount' type="number" step='.01' min=0 class="form-control" placeholder="Item Cost" required>
+            </div>
+          </div>
+          
+
+          <button class="btn btn-default">Buy Item</button>
+        </form>
+      </div>
+
+      <div class="tableArea">
+        <table class="table table-hover table-bordered">
+          <thead>
+            <tr class='info'>
+              <th class=text-center>Item(s)</th>
+              <th class=text-center>Room</th>
+              <th class=text-center>Money Spent</th>
+              <th class=text-center>Update</th>
+
+
+            </tr>
+            <tr class='warning'>
+              <th><input ng-model='search.description' type="text" placeholder='Search by Item'></th>
+            
+              <th><input ng-model='search.room' type="text" placeholder='Search by Room'</th>
+              <th class=text-center>{{totalCredit | currency}}</th>
+              <th></th>
+
+            
+              
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat='item in storage.items | filter:{description: search.description, room: search.room} track by $index'>
+              <td>{{item.description}}</td>
+              <td>{{item.room}}</td>
+              <td class=text-right>{{item.credit | currency}}</td>
+              <td><button ng-click='delete()' class="btn btn-danger">Sell Item</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+
+  </div>
+</body>
+</html>
